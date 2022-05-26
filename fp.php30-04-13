@@ -1,0 +1,41 @@
+<?php
+include "config.php";
+$p=$_POST['email'];
+
+$s=mysql_query('select * from signup where emailid="'.$p.'"');
+$d=mysql_fetch_array($s);
+$f=$d['password'];
+
+$emailto = "shaniyachawla@gmail.com"; 
+$subject = "User forgot Password "; 
+$from = 'info@swapdevelopment.com'; 
+
+$message = "<html>
+<head>
+<title> User forgot Password Email</title>
+</head>
+<body>
+<p>This email contains user forgot Password Request!</p>
+<table>
+<tr>
+<th>Email-Id</th>
+<th>Password</th>
+</tr>
+<tr>
+<td>".$p."</td>
+<td>".$f."</td>
+</tr>
+</table>
+</body>
+</html>";
+
+$headers = "MIME-Version: 1.0" . "\r\n";
+$headers .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
+
+// More headers
+$headers .= 'From: <info@swapdevelopment.com>'. "\r\n";
+mail($emailto,$subject,$message,$headers);
+  
+header('location:home.php');
+ 
+?>

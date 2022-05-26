@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php session_start(); ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Fruit Art</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="healthadmin/stylesheet/styles.css" />
+<link rel="stylesheet" href="stylesheet/css/lightbox.css" media="screen" type="text/css" />
+<link rel="stylesheet" href="stylesheet/css/screen.css" media="screen" type="text/css" />
+
+<script language="javascript" type="text/javascript" src="healthadmin/script/mootools-1.2.1-core.js"></script>
+<script language="javascript" type="text/javascript" src="healthadmin/script/mootools-1.2-more.js"></script>
+<script language="javascript" type="text/javascript" src="healthadmin/script/slideitmoo-1.1.js"></script>
+<script language="javascript" type="text/javascript">
+window.addEvents({
+    'domready': function () { /* thumbnails example , div containers */
+        new SlideItMoo({
+            overallContainer: 'SlideItMoo_outer',
+            elementScrolled: 'SlideItMoo_inner',
+            thumbsContainer: 'SlideItMoo_items',
+            itemsVisible: 5,
+            elemsSlide: 2,
+            duration: 150,
+            itemsSelector: '.SlideItMoo_element',
+            itemWidth: 158,
+            showControls: 1
+        });
+    },
+
+});
+</script>
+<script language="javascript" type="text/javascript">
+function clearText(field) {
+    if (field.defaultValue == field.value) field.value = '';
+    else if (field.value == '') field.value = field.defaultValue;
+}
+</script>
+
+</head>
+<body>
+
+<?php include"header-inner.php" ?>
+
+<div id="contentInner">
+<?php include "config.php";  ?> 
+  <!-- end of product gallery -->
+  <div class="cleaner_h40"></div>
+  <div class="section_w940">
+  <h2>Welcome
+    
+	
+	<?php echo $_SESSION['usr']; ?> 
+    
+    </h2>
+     
+     <div class="section_w430">
+      <ul style="list-style:none; text-decoration:none; font-size:14px; width:150px;">
+      <li style="background: none repeat scroll 0 0 #000000; float:left; margin:10px 0 0 0; border-radius:5px;    color: #FFFFFF !important;    padding: 5px 7px;    width: 130px;"> <a style="color:#fff" href="editprofile.php">Edit Profile</a></li>
+	  <li style="background: none repeat scroll 0 0 #000000;  float:left; margin:10px 0 0 0; border-radius:5px;    color: #FFFFFF !important;    padding: 5px 7px;    width: 130px;"><a style="color:#fff" href="commenthome.php">Comments</a></li>
+      <li style="background: none repeat scroll 0 0 #000000;  float:left; margin:10px 0 0 0 ;  border-radius:5px;   color: #FFFFFF !important;    padding: 5px 7px;    width: 130px;"><a style="color:#fff" href="recommend.php">Recommendation</a></li>
+      <li style="background: none repeat scroll 0 0 #000000;  float:left; margin:10px 0 0 0; border-radius:5px;   color: #FFFFFF !important;    padding: 5px 7px;    width: 130px;"><a style="color:#fff"  href="signout.php">Sign Out</a></li>
+       </ul>
+  <div class="cleaner_h10"></div>
+   </div>
+  <div class=" section_w430">
+ <!--h3>  Your comments will be shown after permission being granted by admin</h3>-->  
+   
+ <?php $s3=mysql_query('select query from signup where user_id="'.$_SESSION['d'].'"');
+ $query3=mysql_fetch_array($s3);
+ $sq=$query3['query'];
+ $s4= mysql_query('select image_name,image_info from tbl_recommend where topic="'.$sq.'"');
+ while($sq2=mysql_fetch_array($s4))
+ {
+ ?>
+ 
+  <div class="set">
+        <div class="single first">
+ 
+ <div class="recom" style="float:left;  margin:0 10px 10px 10px;  width:24%;">
+ 
+ <!--img src="healthadmin/images/<?php echo $sq2['image_name']; ?>" height="100px" width="100px" style="float:left; border:1px solid; background: none repeat scroll 0 0 #FFFFFF;border: 3px solid #E8E8E8;padding: 1px;">-->
+ 
+ 
+ <a href="healthadmin/images/<?php echo $sq2['image_name']; ?>" rel="lightbox[plants]" title="Click on the right side of the image to move forward."><img src="healthadmin/images/<?php echo $sq2['image_name']; ?>" height="100px" width="100px" alt="Plants: image 1 0f 4 thumb" /></a> 
+ 
+ <p style="font-family: calibri;"> <?php echo $sq2['image_info']; ?> </p>
+</div>
+
+</div>
+</div>
+
+        <?php } ?>
+			
+           
+   <div class="cleaner_h10"></div>
+      
+    </div>
+    <div class="cleaner"></div>
+  </div>
+</div>
+<!-- end of content -->
+<?php include"footer.php" ?>
+</body>
+</html>
+
+
+

@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php session_start(); ?>
+<?php include "config.php";  ?>
+<?php if(!isset($_SESSION['d'])) 
+{
+header('location:community.php'); } ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>How-Healthy</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="healthadmin/stylesheet/styles.css" />
+<script language="javascript" type="text/javascript" src="healthadmin/script/mootools-1.2.1-core.js"></script>
+<script language="javascript" type="text/javascript" src="healthadmin/script/mootools-1.2-more.js"></script>
+<script language="javascript" type="text/javascript" src="healthadmin/script/slideitmoo-1.1.js"></script>
+<script language="javascript" type="text/javascript">
+window.addEvents({
+    'domready': function () { /* thumbnails example , div containers */
+        new SlideItMoo({
+            overallContainer: 'SlideItMoo_outer',
+            elementScrolled: 'SlideItMoo_inner',
+            thumbsContainer: 'SlideItMoo_items',
+            itemsVisible: 5,
+            elemsSlide: 2,
+            duration: 150,
+            itemsSelector: '.SlideItMoo_element',
+            itemWidth: 158,
+            showControls: 1
+        });
+    },
+
+});
+</script>
+<script language="javascript" type="text/javascript">
+function clearText(field) {
+    if (field.defaultValue == field.value) field.value = '';
+    else if (field.value == '') field.value = field.defaultValue;
+}
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+</script>
+<script type="text/javascript"> 
+<?php 
+	$q5=mysql_query('select * from tbl_comments where parent_id="0" && user_id="'.$_SESSION['d'].'"');  
+     
+	  ?>
+$(document).ready(function(){
+<?php while($row1=mysql_fetch_array($q5)) { ?>
+  $("#<?php echo $row1['comment_id'] ; ?>").click(function(){
+    $("#<?php echo $row1['comment_id'].'1'; ?>").toggle();
+	$("#<?php echo $row1['comment_id'].'2'; ?>").toggle();
+	
+});
+<?php } ?>
+
+
+});
+
+</script>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- start of header-->
+<div id="site_title_bar_wrapper_outterInnerpage">
+  <div id="site_title_bar_wrapper_inner">
+    <div id="site_title_barInner">
+      <div id="banner_left">
+        <div id="site_title">
+          <h1><a href="#"><img src="images/logo.png"/> </a></h1>
+        </div>
+        <div id="menu">
+          <ul>
+            <li><a href="home.php"><span></span>Home</a></li>
+            <li><a href="exercise.php"><span></span>Exercise</a></li>
+            <li><a href="nutrition.php"><span></span>Nutrition</a></li>
+            <li><a href="community.php" class="current"><span></span>Community</a></li>
+            <li><a href="cmnt_sec.php"><span></span>Comment Section</a></li>
+            <li><a href="contactus.php"><span></span>Contact Us</a></li>
+          </ul>
+        </div>
+        <!-- end of menu -->
+      </div>
+    </div>
+    <!-- end of site_title_bar  -->
+  </div>
+  <!-- end of site_title_bar_wrapper_inner -->
+</div>
+<!-- end of site_title_bar_wrapper_outter  -->
+<script src="js/jquery-1.7.2.min.js"></script>
+<script src="js/lightbox.js"></script>
+<!-- end of header-->
+<div id="contentInner">
+  <?php include "config.php";  ?>
+  <!-- end of product gallery -->
+  <div class="cleaner_h40"></div>
+  <div class="section_w940">
+    <h2>Welcome
+      <?php 
+   // $j=@$_GET['k'];
+    echo $_SESSION['usr'];
+	 //$se=mysql_query('select * from signup where user_id="'.$_SESSION['d'].'"');
+     //$p=mysql_fetch_array($se);
+	 // echo $p['username'] ?>
+    </h2>
+    <?php
+	
+	define('max',15);
+	
+	
+	$q1=mysql_query('select * from tbl_comments where parent_id="0" && user_id="'.$_SESSION['d'].'" && status="y" '); 
+		$total = mysql_num_rows($q1);
+	
+		$total_pages = ceil($total /max);
+		
+		$page = @$_GET['page']; 
+		    
+		if (0 == $page){
+			$page = 1;
+		}
+		
+		$start = max * ($page - 1);
+		$end = max;
+		
+		$rs = mysql_query("SELECT * FROM tbl_comments limit $start,$end");
+
+	?>
+    <div class="section_w430">
+      <ul style="list-style:none; text-decoration:none; font-size:14px; width:150px;">
+        <li style="background: none repeat scroll 0 0 #000000; float:left; margin:10px 0 0 0; border-radius:5px;    color: #FFFFFF !important;    padding: 5px 7px;    width: 130px;"> <a style="color:#fff" href="editprofile.php">Edit Profile</a></li>
+        <li style="background: none repeat scroll 0 0 #000000;  float:left; margin:10px 0 0 0; border-radius:5px;    color: #FFFFFF !important;    padding: 5px 7px;    width: 130px;"><a style="color:#fff" href="commenthome.php">Comments</a></li>
+        <li style="background: none repeat scroll 0 0 #000000;  float:left; margin:10px 0 0 0 ;  border-radius:5px;   color: #FFFFFF !important;    padding: 5px 7px;    width: 130px;"><a style="color:#fff" href="recommend.php">Recommendation</a></li>
+        <li style="background: none repeat scroll 0 0 #000000;  float:left; margin:10px 0 0 0; border-radius:5px;   color: #FFFFFF !important;    padding: 5px 7px;    width: 130px;"><a style="color:#fff"  href="signout.php">Sign Out</a></li>
+      </ul>
+      <div class="cleaner_h10"></div>
+    </div>
+    <div class=" section_w430">
+      <!--h3>  Your comments will be shown after permission being granted by admin</h3>-->
+      <div class="Comment">
+        <form  action="commentdb.php" method="post" enctype="multipart/form-data" >
+          <font style="width:10%; float:left;">Topic</font> <span style="width:70%; float:left;">
+          <textarea rows=4 cols="20" name="top" placeholder="Enter Your Query"></textarea>
+          </span> <span style="width:100%; float:left; text-align:center">
+          <input type="submit" name="sub" value="Submit"  class="login_button" style="margin-top:5px"/>
+          </span>
+        </form>
+        <font style="font-size:14px; font-weight:bold; color:#993300; text-decoration:underline">DATE</font> <span style="font-size:14px; font-weight:bold; color:#993300; text-decoration:underline">TOPIC</span>
+        <?php 
+  while($row=mysql_fetch_array($q1))
+   {  ?>
+        <font><?php echo $row['date'] ;  ?></font> <span style="font-size:12px;"><b><?php echo $row['topic']; ?></b></span>
+        <?php $q2=mysql_query('select * from tbl_comments where parent_id="'.$row['comment_id'].'" ');   
+	$cmd=$row['comment_id'];
+	$o=mysql_num_rows($q2);?>
+        <label style="cursor:pointer; text-decoration:underline; color:#0066CC" id="<?php echo $row['comment_id'] ; ?>">Comments <?php echo ("($o)"); ?></label>
+        <label style="display:none; background-color:#e5e5e5;"  id="<?php echo $row['comment_id'].'1'; ?>" >
+        <?php  while($q3=mysql_fetch_array($q2)) { ?>
+        <font style="float:left; width:30%; "> <?php echo $q3['date']; ?> </font> <span style="float:left; width:40%; ">
+        <?php if($q3['topic']==""){echo 'null'; } else {echo $q3['topic'] ;} ?>
+        </span> <font style="float:left; width:30%; ;"> By
+        <?php if($q3['username']==""){echo 'null'; } else {echo $q3['username'];} ?>
+        </font>
+        <?php  } ?>
+        </label>
+        <?php } ?>
+      </div>
+      <br />
+      <center>
+        <p class="cmn">
+          <?php if(@$_GET['ll']==1) { echo 'Admin will grant permission for topic after then your topic will be shown'; } ?>
+        </p>
+      </center>
+      <center>
+        <?php for ($i = 1; $i <= $total_pages; $i++) {
+					$txt = $i;
+					if ($page != $i)
+					$txt = "<a href=\"" . $_SERVER["PHP_SELF"] . "?page=$i\">$txt</a>"; 
+			         echo $txt; 
+			                   } ?>
+      </center>
+      <div class="cleaner_h10"></div>
+    </div>
+    <div class="cleaner"></div>
+  </div>
+</div>
+<!-- end of content -->
+<?php include"footer.php" ?>
+</body>
+</html>
